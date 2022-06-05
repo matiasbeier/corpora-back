@@ -19,7 +19,15 @@ const getUser = async ({job}) =>{
                     job
                 }
             })
-            return users.length ? users : "no hay usuarios con ese trabajo"
+            return users.length 
+                ? users.map(user =>{
+                    return {
+                        ...user.dataValues,
+                        fullName: `${user.name} ${user.surname}`,
+                        age: calcAge(user.birthDate)
+                    }
+                })
+                : "no hay usuarios con ese trabajo"
         } else {
             const users = await Personas.findAll()
             return users.length 
@@ -36,27 +44,7 @@ const getUser = async ({job}) =>{
         return e
     }
 }
-/* const getUser = async ({email, job}) =>{
-    try{
-        if(email){
-            const user = await Personas.findOne({
-                where: {
-                    email
-                }
-            })
-            return user ? user : "no existe un usuario con ese email"
-        } else {
-            const users = await Personas.findAll({
-                where: {
-                    job
-                }
-            })
-            return users.length ? users : "no hay usuarios con ese trabajo"
-        }
-    } catch(e){
-        return e
-    }
-} */
+
 
 const createUser = async ({
 	name,
@@ -83,7 +71,7 @@ const createUser = async ({
 	}
 };
 
-const deleteUser = async (id) => {
+/* const deleteUser = async (id) => {
 	try {
 		const eliminado = await Personas.destroy({where: {id}});
 		return eliminado > 0
@@ -92,7 +80,7 @@ const deleteUser = async (id) => {
 	} catch (e) {
 		return e;
 	}
-};
+}; */
 
 module.exports = {
     getUser,

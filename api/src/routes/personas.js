@@ -1,6 +1,7 @@
 const {Router} = require('express');
 const router = Router();
-const {getUser, createUser, deleteUser} = require('../controllers/Personas');
+const {Personas} = require('../db');
+const {getUser, createUser} = require('../controllers/Personas');
 
 
 router.get('/', async (req, res) => {
@@ -27,7 +28,6 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try{
-		console.log("entrando", id)
 		const { id } = req.params;
         const { name,
 			surname,
@@ -35,7 +35,6 @@ router.put('/:id', async (req, res) => {
 			job,
 			email } = req.body;
 		if(name && surname && birthDate && email){
-			console.log("cambio")
 			const number = await Personas.update({
 				name,
 				surname,
@@ -48,7 +47,6 @@ router.put('/:id', async (req, res) => {
 					id: id
 				}
 			})
-			console.log(number)
 			return number > 0 
 				? res.send("datos actualizados")
 				: res.send("no hay personas con ese id")
@@ -60,8 +58,8 @@ router.put('/:id', async (req, res) => {
 })
 
 router.delete('/:id', async (req,res) =>{
-    const {id} = req.params;
-    try{
+	try{
+		const {id} = req.params;
         const user = await Personas.destroy({
             where: {
                 id: id
