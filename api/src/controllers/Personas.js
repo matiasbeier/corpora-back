@@ -71,7 +71,7 @@ const createUser = async ({
 	}
 };
 
-/* const deleteUser = async (id) => {
+const deleteUser = async (id) => {
 	try {
 		const eliminado = await Personas.destroy({where: {id}});
 		return eliminado > 0
@@ -80,7 +80,7 @@ const createUser = async ({
 	} catch (e) {
 		return e;
 	}
-}; */
+};
 
 module.exports = {
     getUser,
